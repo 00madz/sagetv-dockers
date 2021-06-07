@@ -29,7 +29,7 @@ RUN set -x && \
     add-apt-repository -y universe && \
     apt-get update && \
     apt-get install -y wget curl libfaad2 net-tools file libargtable2-0 ffmpeg sudo \
-        less vim software-properties-common unzip cifs-utils lirc dos2unix && \
+        less vim software-properties-common unzip cifs-utils lirc dos2unix jq && \
     apt-get autoremove -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
