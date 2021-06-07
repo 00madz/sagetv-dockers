@@ -104,9 +104,6 @@ if [ ! -e ${SAGE_START} ] || [ "${UPGRADE}" = "Y" ] || file libSage.so|grep '32-
     rm -f ${SAGE_SERVER_TGZ}
     echo "${SAGE_VERSION}" > ${SAGE_CUR_VERSION_FILE}
     SAGE_CUR_VERSION=${SAGE_VERSION}
-
-    # force setting permissions after install
-    export OPT_SETPERMS=Y
 else
     echo "SageTV Already At Version: ${SAGE_VERSION}, exiting..."
     exit 0
