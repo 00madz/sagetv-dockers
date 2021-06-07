@@ -39,9 +39,5 @@ if [ -e $PIDFILE ] ; then
    fi
 fi
 
-chmod 777 /var/media/videos
-chmod 777 /var/media/pictures
-chmod 777 /var/media/music
-
 /usr/local/bin/startsagecore <&- &
 exit 0

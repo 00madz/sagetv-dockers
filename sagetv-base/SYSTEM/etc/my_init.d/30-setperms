@@ -2,11 +2,7 @@
 
 OPT_SETPERMS=${OPT_SETPERMS:-Y}
 
-if [ ${OPT_SETPERMS} != "Y" ] ; then
-    exit 0
-fi
-
-chown -Rv sagetv:sagetv /var/media | grep -v 'retained'
+# These permissions are critical to sage operating correctly
 chown -Rv sagetv:sagetv /opt/sagetv | grep -v 'retained'
 chown -v root:sagetv /var/run | grep -v 'retained'
 chown -v root:sagetv /run | grep -v 'retained'
@@ -16,5 +12,18 @@ chmod -v 775 /run/ | grep -v 'retained'
 # allow mount to run as root
 chmod -v u+s /sbin/mount* | grep -v 'retained'
 chmod -v u+s /bin/mount* | grep -v 'retained'
+
+# Optionally set permissions on all media files too
+if [ ${OPT_SETPERMS} != "Y" ] ; then
+    exit 0
+fi
+
+chown -Rv sagetv:sagetv /var/media | grep -v 'retained'
+
+# Moved here out of startsage script
+chmod 777 /var/media/videos
+chmod 777 /var/media/pictures
+chmod 777 /var/media/music
+
 
 exit 0
