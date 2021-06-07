@@ -1,12 +1,12 @@
 # BUILDING
-# docker build -t stuckless/sagetv-base:latest .
+# docker build -t 00madz/sagetv-base:latest .
+# Forked from stuckless/sagetv-base:latest
+# Full credit to the awesome work done by Sean Stuckless <sean.stuckless@gmail.com>
 
 # Ubuntu 16.04
 FROM phusion/baseimage:0.10.0
 
 CMD ["/sbin/my_init"]
-
-MAINTAINER Sean Stuckless <sean.stuckless@gmail.com>
 
 # The docker container version, not SageTV version
 ENV SAGETV_CONTAINER_VERSION="1.0.4" \
