@@ -32,6 +32,7 @@ if [ -e $PIDFILE ] ; then
       echo SageTV not currently running
       exit 1
    fi
+   echo Stopping SageTV service
    kill $sagepid
    killcount=0
    while [ "$killcount" -lt "30" ]
