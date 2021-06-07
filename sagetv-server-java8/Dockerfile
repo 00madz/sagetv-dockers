@@ -1,25 +1,16 @@
 # BUILDING
 # docker build -t stuckless/sagetv-server-java8:latest .
 
-FROM stuckless/sagetv-base:latest
-
-MAINTAINER Sean Stuckless <sean.stuckless@gmail.com>
+FROM 00madz/sagetv-base:latest
 
 RUN set -x
 
-RUN \
-  echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
-  add-apt-repository -y ppa:webupd8team/java && \
-  apt-get update && \
-  apt-get install -y oracle-java8-installer && \
-  rm -rf /var/lib/apt/lists/* && \
-  rm -rf /var/cache/oracle-jdk8-installer
-
+RUN mkdir -p /usr/lib/jvm && \
+    cd /usr/lib/jvm/ && \
+    wget https://download.java.net/openjdk/jdk8u41/ri/openjdk-8u41-b04-linux-x64-14_jan_2020.tar.gz && \
+    tar -zxvf openjdk-8u41-b04-linux-x64-14_jan_2020.tar.gz && \
+    rm -f openjdk-8u41-b04-linux-x64-14_jan_2020.tar.gz
 
 # Define commonly used JAVA_HOME variable
-ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
-
-RUN apt-get autoremove -y \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
+ENV JAVA_HOME=/usr/lib/jvm/java-se-8u41-ri \
+    PATH=/usr/lib/jvm/java-se-8u41-ri/bin:${PATH}
