@@ -1,5 +1,5 @@
 # BUILDING
-# docker build -t stuckless/sagetv-server-java8:latest .
+# docker build -t 00madz/sagetv-server-java8:latest .
 
 FROM 00madz/sagetv-base:latest
 
