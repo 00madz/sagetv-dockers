@@ -8,6 +8,7 @@ chown -v root:sagetv /var/run | grep -v 'retained'
 chown -v root:sagetv /run | grep -v 'retained'
 chmod -v 775 /var/run/ | grep -v 'retained'
 chmod -v 775 /run/ | grep -v 'retained'
+chmod -v 775 /opt/sagetv | grep -v 'retained'
 
 # allow mount to run as root
 chmod -v u+s /sbin/mount* | grep -v 'retained'
@@ -24,6 +25,5 @@ chown -Rv sagetv:sagetv /var/media | grep -v 'retained'
 chmod 777 /var/media/videos
 chmod 777 /var/media/pictures
 chmod 777 /var/media/music
-
 
 exit 0
