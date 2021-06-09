@@ -43,6 +43,9 @@ RUN chmod 755 /etc/my_init.d/* && \
 
 VOLUME ["/var/media", "/var/mediaext", "/opt/sagetv"]
 
+# For OpenDCT support
+VOLUME ["/etc/opendct", "/var/log/opendct", "/opt/opendct"]
+
 # Client (TCP 42024 for connecting, TCP 7818 for streaming, UDP 8270 for finding servers)
 # All extenders (UDP 31100 for discovery, TCP 31099 for connections?)
 # Hauppage extender (all UDP) 16867 16869 16881
