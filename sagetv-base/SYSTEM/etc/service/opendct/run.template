@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# start open dct
+echo "Launching OpenDCT..."
+exec /opt/opendct/console-only
