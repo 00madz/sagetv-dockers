@@ -123,50 +123,51 @@ OPENDCT_LOCAL_DEB=opendct_amd64.deb
 # check if offline, and attempt to continue
 if [ "${OPENDCT_URL}" = "" ]; then
     echo "Could not perform update. Trying to continue with currently installed version";
-    exit 0
-fi
-
-# Check what we (supposedly) currently have installed, if anything...
-OPENDCT_CUR_INSTALL=""
-if [ -e ${OPENDCT_CUR_INSTALL_FILE} ] ; then
-    OPENDCT_CUR_INSTALL=`cat ${OPENDCT_CUR_INSTALL_FILE}`
-fi
-
-# Install Opendct
-if [ "${OPENDCT_CUR_INSTALL}" = "" ] && [ "${OPENDCT_URL}" = "" ] ; then
-    echo "Unable to find suitable OpenDCT binary to install"
-elif [ "${OPENDCT_CUR_INSTALL}" = "${OPENDCT_URL}" ] ; then
-    echo "Currently installed version of OpenDCT matches preferred version available on github repo ${GITHUB_REPO}"
 else
-    echo "Installing OpenDCT from ${OPENDCT_URL}..."
 
-    wget -O ${OPENDCT_LOCAL_DEB} ${OPENDCT_URL}
-    dpkg -i ${OPENDCT_LOCAL_DEB}
-    rm -f ${OPENDCT_LOCAL_DEB}
+    # Check what we (supposedly) currently have installed, if anything...
+    OPENDCT_CUR_INSTALL=""
+    if [ -e ${OPENDCT_CUR_INSTALL_FILE} ] ; then
+        OPENDCT_CUR_INSTALL=`cat ${OPENDCT_CUR_INSTALL_FILE}`
+    fi
 
-    # Set up some permissions
-    chown -Rv sagetv:sagetv /opt/opendct
-    chown -Rv sagetv:sagetv /etc/opendct
-    chown -Rv sagetv:sagetv /var/log/opendct
-    chown -v root:sagetv /var/run
-    mkdir /var/run
-    mkdir /var/run/opendct
-    chmod 775 /var/run/
-    chmod 775 /run/
-    chmod 775 /opt/opendct
-    chmod 775 /etc/opendct
+    # Install Opendct
+    if [ "${OPENDCT_CUR_INSTALL}" = "" ] && [ "${OPENDCT_URL}" = "" ] ; then
+        echo "Unable to find suitable OpenDCT binary to install"
+    elif [ "${OPENDCT_CUR_INSTALL}" = "${OPENDCT_URL}" ] ; then
+        echo "Currently installed version of OpenDCT matches preferred version available on github repo ${GITHUB_REPO}"
+    else
+        echo "Installing OpenDCT from ${OPENDCT_URL}..."
 
-    # Set to use media server consumer, so we don't have to have access to recording location.
-    echo -e "\nconsumer.dynamic.default=opendct.consumer.MediaServerConsumerImpl\n" >> /etc/opendct/conf/opendct.properties
+        wget -O ${OPENDCT_LOCAL_DEB} ${OPENDCT_URL}
+        dpkg -i ${OPENDCT_LOCAL_DEB}
+        rm -f ${OPENDCT_LOCAL_DEB}
+    
+        # Set to use media server consumer, so we don't have to have access to recording location.
+        echo -e "\nconsumer.dynamic.default=opendct.consumer.MediaServerConsumerImpl\n" >> /etc/opendct/conf/opendct.properties
 
-    # Record the installed version to prevent reinstallation every time the container starts
-    echo "${OPENDCT_URL}" > ${OPENDCT_CUR_INSTALL_FILE}
+        # Record the installed version to prevent reinstallation every time the container starts
+        echo "${OPENDCT_URL}" > ${OPENDCT_CUR_INSTALL_FILE}    
 
-    echo "Enabling OpenDCT daemon..."
-    cp -f -T /etc/service/opendct/run.template /etc/service/opendct/run
-    chmod 775 /etc/service/opendct/run
-
-    echo "OpenDCT Install Complete :-)"
+        echo "OpenDCT Install Complete :-)"
+    fi
 fi
+
+# Set up some permissions - do this each time to ensure all is correct
+echo "Ensuring OpenDCT permissions are correct..."
+chown -Rv sagetv:sagetv /opt/opendct
+chown -Rv sagetv:sagetv /etc/opendct
+chown -Rv sagetv:sagetv /var/log/opendct
+chown -v root:sagetv /var/run
+mkdir /var/run
+mkdir /var/run/opendct
+chmod 775 /var/run/
+chmod 775 /run/
+chmod 775 /opt/opendct
+chmod 775 /etc/opendct
+
+echo "Enabling OpenDCT daemon..."
+cp -f -T /etc/service/opendct/run.template /etc/service/opendct/run
+chmod 775 /etc/service/opendct/run
 
 exit 0
