@@ -14,16 +14,37 @@ chmod -v 775 /opt/sagetv | grep -v 'retained'
 chmod -v u+s /sbin/mount* | grep -v 'retained'
 chmod -v u+s /bin/mount* | grep -v 'retained'
 
-# Optionally set permissions on all media files too
+# Ensure sage has access to base-level media folders
+# Not very comfortable with 777 here but this originally came out of the startsage script
+if [ -e /var/media/videos ] ; then
+    chmod 777 /var/media/videos
+fi
+if [ -e /var/media/Videos ] ; then
+    chmod 777 /var/media/Videos
+fi
+
+if [ -e /var/media/pictures ] ; then
+    chmod 777 /var/media/pictures
+fi
+if [ -e /var/media/Pictures ] ; then
+    chmod 777 /var/media/Pictures
+fi
+
+if [ -e /var/media/music ] ; then
+    chmod 777 /var/media/music
+fi
+if [ -e /var/media/Music ] ; then
+    chmod 777 /var/media/Music
+fi
+
+chmod 777 /var/tv
+
+# Optionally set permissions on all media and TV files too
 if [ ${OPT_SETPERMS} != "Y" ] ; then
     exit 0
 fi
 
 chown -Rv sagetv:sagetv /var/media | grep -v 'retained'
-
-# Moved here out of startsage script
-chmod 777 /var/media/videos
-chmod 777 /var/media/pictures
-chmod 777 /var/media/music
+chown -Rv sagetv:sagetv /var/tv | grep -v 'retained'
 
 exit 0

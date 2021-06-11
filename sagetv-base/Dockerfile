@@ -41,7 +41,7 @@ RUN chmod 755 /etc/my_init.d/* && \
     chmod 440 /etc/sudoers.d/sagetv-sudo && \
     chmod 755 /usr/bin/wine
 
-VOLUME ["/var/media", "/var/mediaext", "/opt/sagetv"]
+VOLUME ["/var/tv", "/var/media", "/var/mediaext", "/opt/sagetv"]
 
 # For OpenDCT support
 VOLUME ["/etc/opendct", "/var/log/opendct", "/opt/opendct"]
